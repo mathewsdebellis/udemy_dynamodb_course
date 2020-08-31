@@ -1,0 +1,137 @@
+
+ SQL      =  DynamoDB
+tables    = tables
+rows      = items
+column    = attribute
+    sql:      pk - multicolumn and optional
+    dynamodb: pk - mandatory, minimum 1 and max 2 attribs
+indexes   = local secondary indexes
+views     = global secondary indexes
+
+dynamodb as a json document store that stores a collection of json objects
+each object within a table is an itemsevery item has several attribs
+
+--------------------------------
+ Tables and naming conventions
+--------------------------------
+ Top Level Entities
+ Independent Entities
+ Flexible Schema
+
+Prefix table names to create namespaces
+  prefix.tablename or prefix_tablename
+
+Every table is treated independently
+ There's no FK on dynamodb
+ There are no Table Joins
+
+Only common attribute for each item in the table = PK
+
+--------------------------------
+ Data Types
+--------------------------------
+*Scalar Types
+ Exactly 1 value
+ PK Defining
+ string; number; bool; binary; null
+
+*Set Types
+ Multiple scalar values
+ string set, number set, binary set
+ unordered collection of atrings
+ same scalar type , no duplicates, no empty
+
+*Document Types
+ Complex structure with nested attributes
+ 32 levels deep
+ list, map
+ non-empty values within lists and maps
+ empty lists and maps are allowed
+
+ List
+  Ordered, multiple data Types
+ Maps
+  Unordered collection of KEY:VALUE  pairs
+  ideal for JSON
+
+--------------------------------
+ Consistency Model
+--------------------------------
+Regions -> Availability Zones -> Facilities
+DynamoDB automatically replicates data between multiple facilities within aws region
+At least 3 copies of your data in SSD
+Strong Consistency
+ Most up-to-date data
+ requested explicitly
+Eventually Consistency
+ Copy of requested data of any replica
+ Default 
+ 50% Cheaper
+
+--------------------------------
+ Capacity Units
+--------------------------------
+Throughput Capacity
+Predictable performance at scale
+control read/write Throughput
+autoscaling
+RCUs and WCUs
+1 capacity unit = 1 request/sec
+Avg size : 10 rcus + 10 wcus
+strong : 4kb x 10 = 40kb/s
+
+--------------------------------
+ Basics of DynamoDB Partitions
+--------------------------------
+Store DynamoDB table data
+Table can have multiple Partitions
+# of table partitions depend on its size and provisioned capacity
+managed by DynamoDB
+1 partition = 100GB of data ; 1000WCUs or 3000RCUs
+
+--------------------------------
+ Basics of DynamoDB Indexes
+--------------------------------
+Mandatory Primary Key - Simple or composite
+Simple Primary Key    - Only Partition or Hash Key
+Composite Primary Key - Partition Key + Sort Key
+Partition or Hash key decides the target partition
+Scan operations should be avoided
+
+--------------------------------
+ Seconday Indexes
+--------------------------------
+ Local Seconday Indexes
+  Partition key = Same as of the Primary key
+  Must create indexes when creating table
+ Global Seconday Indexes
+  Partition key different from the Primary key
+  Created any time
+
+
+--------------------------------
+ Interacting with DynamoDB
+--------------------------------
+aws management console
+aws cli
+aws sdk
+
+--------------------------------
+ Using AWS Console
+--------------------------------
+
+**Get all query operations our application may use
+
+basic sdk usage is
+
+dynamodb.ACTION( params = {} , (err,data) => {
+  if(err) {
+    console.log(err);
+  } else {
+    console.log(data);
+  }
+});
+
+Document client class
+Wraps DynamoDBAWS Usage
+makes it into native js types
