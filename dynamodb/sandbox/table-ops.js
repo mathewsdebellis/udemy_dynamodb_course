@@ -8,7 +8,7 @@ const dynamodb = new AWS.DynamoDB();
 let params = {};
 
 // Returns an object with List of Tables
-dynamodb.listTables(params, (err, data) => {
+/* dynamodb.listTables(params, (err, data) => {
 	if (err) {
 		console.log(err);
 	} else {
@@ -45,7 +45,7 @@ dynamodb.describeTable(
 		}
 	}
 );
-
+ */
 // CRUD Table
 // Create Table
 dynamodb.createTable(
@@ -84,7 +84,7 @@ dynamodb.createTable(
 		}
 	}
 );
-
+/* 
 // Update Table
 dynamodb.updateTable(
 	{
@@ -115,4 +115,4 @@ dynamodb.deleteTable(
 			console.log(data);
 		}
 	}
-);
+); */

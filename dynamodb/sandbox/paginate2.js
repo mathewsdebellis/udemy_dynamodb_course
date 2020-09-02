@@ -15,7 +15,7 @@ async.doWhilst(
 			TableName: 'td_notes_sdk',
 			Limit: 3,
 		};
-
+		
 		if (!_.isEmpty(startKey)) {
 			params.ExclusiveStartKey = startKey;
 		}
